@@ -7,12 +7,28 @@ const api = async () => {
     .then((resp) => resp.json())
     .then((resp) => resp.amiibo)
   lista.value = respuesta
-  console.log(lista.value)
+
 
 }
 
 api();
 
+let filtrado = ref(null)
+const direccion = "https://www.amiiboapi.com/api/amiiboseries";
+const api2 = async () => {
+  const respuesta2 = await fetch(direccion)
+    .then((resp) => resp.json())
+    .then((resp) => resp.amiibo)
+  filtrado.value = respuesta2
+  console.log(filtrado)
+
+}
+
+api2();
+let cuerpo=document.getElementById("cuerpo")
+function limpiar(elemento) {
+  elemento.innerHTML="";
+}
 
 /*
 const url="https://www.amiiboapi.com/api/amiibo/";
@@ -24,12 +40,43 @@ respuesta.then((resp)=>resp.text())
   console.log(json)
 });
 */
-
+//<a href="https://www.flaticon.es/iconos-gratis/nintendo" title="nintendo iconos">Nintendo iconos creados por Freepik - Flaticon</a>
+//<a target="_blank" href="https://icons8.com/icon/16294/nintendo">Nintendo</a> icono de <a target="_blank" href="https://icons8.com">Icons8</a>
 </script>
 
 <template>
-  <h1>Amiibo catalogue</h1>
-  <div class="w-full h-full grid grid-cols-1 gap-2 md:grid-cols-3 " >
+
+  <nav
+    class="flex flex-col text-center content-center mb-4 sm:flex-row sm:text-left sm:justify-between py-2 px-6 bg-red-600 text-white  sm:items-baseline w-full">
+    <div class="mb-2 sm:mb-0 inner">
+
+      <a href="/home"
+        class="text-2xl no-underline text-grey-darkest hover:text-blue-dark font-sans font-bold">LogoText</a><br>
+      <span class="text-xs text-grey-dark">Beautiful New Tagline</span>
+
+    </div>
+
+    <div class="sm:mb-0 self-center">
+      <!-- <div class="h-10" style="display: table-cell, vertical-align: middle;"> -->
+      <label for="filtrar">Filter by Series: </label>
+      <select  name="filtrar" id="filtrar" class="bg-red-600 text-white font-bold text-center me-2">
+        
+        <option v-for="elemento in filtrado" :value="{ value: elemento.name }" class="bg-red-600 text-white font-bold">{{ elemento.name }}</option>
+      </select>
+     <input type="button" value="Filter" class="bg-white text-red-600 font-bold rounded-md px-4 py-1">
+     <input type="button" value="Shopping cart" class="bg-white text-red-600 font-bold rounded-md px-4 py-1 ms-2">
+      <!-- <a href="/two" class="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2">About Us</a> -->
+      
+      <!-- </div> -->
+
+    </div>
+  </nav>
+
+
+
+
+  <div class=" w-full h-full grid grid-cols-1 gap-2 items-stretch mx-12 md:grid-cols-3 "id="cuerpo">
+    
     <div v-for="elemento in lista">
       <!--  <div class="bg-red-500 w-80 text-white">
         <h1 class="text-blue-400 text-2xl">Amiibo Series: {{ elemento.amiiboSeries }}</h1>
@@ -48,8 +95,7 @@ respuesta.then((resp)=>resp.text())
 
 
 
-      <div
-        class="w-full max-w-sm bg-red-600 text-white border border-gray-200 rounded-lg shadow">
+      <div class="w-full max-w-sm bg-red-600 text-white border border-gray-200 rounded-lg shadow">
         <div class="py-4 px-4">
           <img class="p-4 rounded-t-lg bg-white mx-auto" :src="elemento.image" alt="product image" />
         </div>
@@ -61,7 +107,7 @@ respuesta.then((resp)=>resp.text())
             elemento.gameSeries }}</h5>
           <h5 class="text-xl font-semibold tracking-tight">Character: {{
             elemento.character }}</h5>
-          
+
           <div class="flex flex-col  mt-2.5 mb-4 ">
             <h5 class="text-lg font-semibold tracking-tight">Release dates:</h5>
             <p>Europe: {{ elemento.release.eu }}</p>
