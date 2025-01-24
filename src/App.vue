@@ -25,11 +25,19 @@ const api2 = async () => {
 }
 
 api2();
-let cuerpo=document.getElementById("cuerpo")
-function limpiar(elemento) {
+let cuerpo = document.getElementById("cuerpo")
+
+function limpiar(elemento){
+
   elemento.innerHTML="";
 }
-
+const open = ref(false)
+const selector= ref('seleccion')
+function selected(event){
+  if(event){
+    console.log(selector)
+  }
+}
 /*
 const url="https://www.amiiboapi.com/api/amiibo/";
 const respuesta=fetch(url)
@@ -59,41 +67,41 @@ respuesta.then((resp)=>resp.text())
     <div class="sm:mb-0 self-center">
       <!-- <div class="h-10" style="display: table-cell, vertical-align: middle;"> -->
       <label for="filtrar">Filter by Series: </label>
-      <select  name="filtrar" id="filtrar" class="bg-red-600 text-white font-bold text-center me-2">
-        
-        <option v-for="elemento in filtrado" :value="{ value: elemento.name }" class="bg-red-600 text-white font-bold">{{ elemento.name }}</option>
+      <select v-model="seleccion" name="seleccion" id="seleccion" class="bg-red-600 text-white font-bold text-center me-2">
+    
+        <option @click="selected" v-for="elemento in filtrado" :value="{ value: elemento.name }" class="bg-red-600 text-white font-bold">
+          {{ elemento.name }}</option>
       </select>
-     <input type="button" value="Filter" class="bg-white text-red-600 font-bold rounded-md px-4 py-1">
-     <input type="button" value="Shopping cart" class="bg-white text-red-600 font-bold rounded-md px-4 py-1 ms-2">
+      <input type="button" value="Filter" class="bg-white text-red-600 font-bold rounded-md px-4 py-1">
+      <input type="button" value="Shopping cart" class="bg-white text-red-600 font-bold rounded-md px-4 py-1 ms-2" @click="open=true">
       <!-- <a href="/two" class="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2">About Us</a> -->
-      
+
       <!-- </div> -->
 
     </div>
   </nav>
 
 
+ 
+  <div v-if="open" class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 py-10">
+  <div class="max-h-full w-full max-w-xl overflow-y-auto sm:rounded-2xl bg-white">
+    <div class="w-full">
+      <div class="m-8 my-20 max-w-[400px] mx-auto">
+        <div class="mb-8">
+          <h1 class="mb-4 text-3xl font-extrabold">Your products</h1>
 
-
-  <div class=" w-full h-full grid grid-cols-1 gap-2 items-stretch mx-12 md:grid-cols-3 "id="cuerpo">
-    
-    <div v-for="elemento in lista">
-      <!--  <div class="bg-red-500 w-80 text-white">
-        <h1 class="text-blue-400 text-2xl">Amiibo Series: {{ elemento.amiiboSeries }}</h1>
-        <h2>Character: {{ elemento.character }}</h2>
-        <h2>Game series: {{ elemento.gameSeries }}</h2>
-        <img :src="elemento.image" style="width: 200px;" alt="">
-        <p>Character: {{ elemento.name }}</p>
-        <h3>Release dates</h3>
-        <p>Australia: {{ elemento.release.au }}</p>
-        <p>Europe: {{ elemento.release.eu }}</p>
-        <p>Japan: {{ elemento.release.jp }}</p>
-        <p>North America: {{ elemento.release.na }}</p>
-        <h3>Type: {{ elemento.type }}</h3>
+        </div>
+        <div class="space-y-4">
+          <button class="p-3 bg-black rounded-full text-white w-full font-semibold">Buy it all</button>
+          <button @click="open = false" class="p-3 bg-white border rounded-full w-full font-semibold">Close shopping cart</button>
+        </div>
       </div>
-      -->
+    </div>
+  </div>
+</div>
+  <div class=" w-full h-full grid grid-cols-1 gap-2 items-stretch mx-12 md:grid-cols-3 " id="cuerpo">
 
-
+    <div v-for="elemento in lista">
 
       <div class="w-full max-w-sm bg-red-600 text-white border border-gray-200 rounded-lg shadow">
         <div class="py-4 px-4">
