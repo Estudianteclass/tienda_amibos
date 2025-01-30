@@ -1,5 +1,22 @@
 <script setup>
-import { ref } from 'vue'
+import { ref ,inject} from 'vue'
+
+const openCart=inject('openCart')
+
+
+
+if(localStorage.getItem("favoritos")){
+
+const list =ref([])
+list.value=JSON.parse(localStorage.getItem("favoritos"))
+
+  console.log(list.value)
+}else{
+
+  console.log("no hay lista de favoritos")
+
+}
+
 
 
 </script>
@@ -10,13 +27,14 @@ import { ref } from 'vue'
 
   <div class="  fixed left-0 top-0 flex flex-col h-screen  w-full items-center justify-center bg-black bg-opacity-50 py-10">
     <h1 class="mb-10 text-center text-2xl font-bold">Cart Items</h1>
+    <div v-for="element in list">
     <div class="mx-auto w-2/3  justify-center px-6 md:flex md:space-x-6 xl:px-0">
       <div class="rounded-lg md:w-2/3">
         <div class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
           <img src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="product-image" class="w-full rounded-lg sm:w-40" />
           <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
             <div class="mt-5 sm:mt-0">
-              <h2 class="text-lg font-bold text-gray-900">Nike Air Max 2019</h2>
+              <h2 class="text-lg font-bold text-gray-900">Nike{{ element.character }}</h2>
               <p class="mt-1 text-xs text-gray-700">36EU - 4US</p>
             </div>
             <div class="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
@@ -36,13 +54,14 @@ import { ref } from 'vue'
         </div>
       
           <div>
-         <input type="button" value="cerrar" @click="openCart=false">
+         <input type="button" value="Close" @click="openCart=false" class="bg-red-600 px-2 py-1 text-white font-bold rounded-md">
        </div>
      
       </div>
       <!-- Sub total -->
      
     </div>
+  </div>
   </div>
 
 
