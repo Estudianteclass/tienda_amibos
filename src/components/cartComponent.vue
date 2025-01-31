@@ -1,68 +1,73 @@
 <script setup>
-import { ref ,inject} from 'vue'
+import { ref, inject } from 'vue'
+import itemComponent from './itemComponent.vue'
+const openCart = inject('openCart')
 
-const openCart=inject('openCart')
+const listaFavoritos = inject('list')
 
+/*
 
+  serie: String,
+  personaje: String,
+  foto: String 
 
-if(localStorage.getItem("favoritos")){
-
-const list =ref([])
-list.value=JSON.parse(localStorage.getItem("favoritos"))
-
-  console.log(list.value)
-}else{
-
-  console.log("no hay lista de favoritos")
-
+*/
+function vaciarCarro() {
+  if (localStorage.getItem("favoritos")) {
+    localStorage.clear()
+    listaFavoritos.value.length=0
+  }
 }
-
-
-
 </script>
 
 
 <template>
 
 
-  <div class="  fixed left-0 top-0 flex flex-col h-screen  w-full items-center justify-center bg-black bg-opacity-50 py-10">
-    <h1 class="mb-10 text-center text-2xl font-bold">Cart Items</h1>
-    <div v-for="element in list">
-    <div class="mx-auto w-2/3  justify-center px-6 md:flex md:space-x-6 xl:px-0">
-      <div class="rounded-lg md:w-2/3">
-        <div class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
-          <img src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="product-image" class="w-full rounded-lg sm:w-40" />
-          <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-            <div class="mt-5 sm:mt-0">
-              <h2 class="text-lg font-bold text-gray-900">Nike{{ element.character }}</h2>
-              <p class="mt-1 text-xs text-gray-700">36EU - 4US</p>
-            </div>
-            <div class="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
-              <div class="flex items-center border-gray-100">
-                <span class="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"> - </span>
-                <input class="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" value="2" min="1" />
-                <span class="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"> + </span>
-              </div>
-              <div class="flex items-center space-x-4">
-                <p class="text-sm">259.000 ₭</p>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 cursor-pointer duration-150 hover:text-red-500">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      
-          <div>
-         <input type="button" value="Close" @click="openCart=false" class="bg-red-600 px-2 py-1 text-white font-bold rounded-md">
-       </div>
-     
+
+
+
+
+
+
+
+  <div class="max-w-2xl w-full bg-white rounded-xl shadow-lg p-6 ">
+    <h2 class="text-2xl font-bold text-gray-900 mb-6">Favorites</h2>
+
+    <div class="space-y-4 overflow-auto">
+      <div v-if="listaFavoritos.length === 0">
+
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Your list of favourites is empty.</h2>
       </div>
-      <!-- Sub total -->
-     
+      <div v-else>
+        <div v-for="elemento in listaFavoritos" >
+          <itemComponent :key="elemento.head" :foto="elemento.image" :serie="elemento.amiiboSeries"
+            :personaje="elemento.character" />
+        </div>
+
+      </div>
+
+      <div class="mt-6 pt-6 border-t">
+
+        <div class="flex justify-center space-x-2">
+          <button class="w-32 bg-red-600 hover:bg-red-700  text-white font-medium py-3 rounded-lg transition-colors"
+            @click="openCart = false">
+            Close cart
+          </button>
+          <button class="w-32 bg-red-600 hover:bg-red-700 text-white font-medium py-3 rounded-lg transition-colors">
+            Checkout
+          </button>
+          <button class="w-32 bg-red-600 hover:bg-red-700 text-white font-medium py-3 rounded-lg transition-colors" @click="vaciarCarro">
+            Empty cart
+          </button>
+        </div>
+
+      </div>
     </div>
   </div>
-  </div>
+
+
+
 
 
 
